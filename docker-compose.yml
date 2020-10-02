@@ -1,0 +1,27 @@
+version: '2'
+services:
+   nginx:
+      image: nginx:latest
+      ports:
+         - 80:80
+         - 443:443
+      volumes:
+         - /home/dan9l10/phpDev/nginx/conf.d/:/etc/nginx/
+         - /home/dan9l10/phpDev/nginx/logs/:/var/log/nginx/
+         - /home/dan9l10/phpDev/nginx/www/:/var/www/
+      links:
+         - php
+
+   php:
+      image: php:7.1-fpm
+      links: 
+         - db
+
+   db:
+      image: mariadb
+      ports:
+         - 3306:3306
+      volumes:
+         - /home/dan9l10/mysql/:/var/lib/mysql
+      environment:
+         MYSQL_ROOT_PASSWORD: secret
